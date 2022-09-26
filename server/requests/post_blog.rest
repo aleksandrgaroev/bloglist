@@ -3,7 +3,8 @@ Content-Type: application/json
 
 {
     "title": "My first post",
-	"author": "Me",
+	"author": "Casinsky",
 	"url": "google.com",
-	"likes": 5
+	"likes": 5,
+	"userId": "6331c4bc660fef463143bb07"
 }
