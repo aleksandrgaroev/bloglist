@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlckxldHp0ZSIsImlkIjoiNjMzMWM5NGI5OWExZjJkYjBlYzM2NDVlIiwiaWF0IjoxNjY0MjA3NzM1fQ.bpkDYe5TQyLhJ_05KbO3oBMbdgId7OR80szBKH9xkZk
 
 {
     "title": "My first post",
 	"author": "Casinsky",
 	"url": "google.com",
-	"likes": 5,
-	"userId": "6331c4bc660fef463143bb07"
+	"likes": 5
 }
