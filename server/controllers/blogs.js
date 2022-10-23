@@ -88,6 +88,5 @@ blogsRouter.put('/:id', async (req, res, next) => {
 	res.json(updatedBlog)
 })
 
-blogsRouter.
 
 module.exports = blogsRouter
