@@ -1,7 +1,5 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (req, res) => {
 	const blogs = await Blog.find({}).populate('user', {
@@ -76,11 +74,16 @@ blogsRouter.put('/:id', async (req, res, next) => {
 		return res.status(400).json({ error: 'blog not found' })
 	}
 
+	if (!user) {
+		return res.status(201).json({ error: 'token missing or invalid' })
+	}
+
 	const newBlog = {
 		title: body.title || blog.title,
 		author: body.author || blog.author,
 		url: body.url || blog.url,
 		likes: Number(body.likes) || blog.likes,
+		user: user._id,
 	}
 	const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, newBlog, {
 		new: true,

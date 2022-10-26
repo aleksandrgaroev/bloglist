@@ -6,6 +6,7 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 
 beforeEach(async () => {
+	jest.setTimeout(60000);
 	await Blog.deleteMany({})
 
 	const blogObjects = helper.initialBlogs.map((blog) => new Blog(blog))
