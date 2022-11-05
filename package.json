@@ -8,11 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.0.1"
-  },
-  "devDependencies": {
-    "cross-env": "^7.0.3"
-  }
+  "license": "ISC"
 }
