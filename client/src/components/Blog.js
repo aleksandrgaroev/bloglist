@@ -1,12 +1,11 @@
-import {useState} from "react";
+import { useState } from 'react'
 
-const Blog = ({blog, likeBlog}) => {
+const Blog = ({ blog, likeBlog, removeBlog, user }) => {
     const [isContentVisible, setIsContentVisible] = useState(false)
-
     const toggleContentVisibility = () => {
         setIsContentVisible(!isContentVisible)
     }
-    const contentVisibility = {display: isContentVisible ? '' : 'none'}
+    const contentVisibility = { display: isContentVisible ? '' : 'none' }
 
 
     const blogStyle = {
@@ -28,9 +27,13 @@ const Blog = ({blog, likeBlog}) => {
             </div>
             <div>
                 likes {blog.likes}
-                <button onClick={() => likeBlog(blog.id)}>like</button>
+                <button onClick={() => likeBlog(blog.id, blog)}>like</button>
             </div>
             <div>{blog.user.username}</div>
+            {user.username === blog.user.username ?
+                <div>
+                    {<button onClick={() => removeBlog(blog.id, blog.title, blog.author)}>remove</button>}
+                </div> : <></>}
         </div>
     </div>
 }

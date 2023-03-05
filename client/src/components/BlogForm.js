@@ -1,6 +1,6 @@
-import {useState} from "react";
+import { useState } from 'react'
 
-const BlogForm = ({createBlog}) => {
+const BlogForm = ({ createBlog }) => {
 
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
@@ -23,7 +23,7 @@ const BlogForm = ({createBlog}) => {
                 <input
                     value={title}
                     name="Password"
-                    onChange={({target}) =>
+                    onChange={({ target }) =>
                         setTitle(target.value)}
                 />
             </div>
@@ -32,7 +32,7 @@ const BlogForm = ({createBlog}) => {
                 <input
                     value={author}
                     name="author:"
-                    onChange={({target}) =>
+                    onChange={({ target }) =>
                         setAuthor(target.value)}
                 />
             </div>
@@ -41,7 +41,7 @@ const BlogForm = ({createBlog}) => {
                 <input
                     value={url}
                     name="url"
-                    onChange={({target}) => setUrl(target.value)}
+                    onChange={({ target }) => setUrl(target.value)}
                 />
             </div>
 

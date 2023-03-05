@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -17,7 +17,7 @@ const App = () => {
     const blogFormRef = useRef()
 
     const notify = (message, type = 'info') => {
-        setNotification({message, type})
+        setNotification({ message, type })
         setTimeout(() => {
             setNotification(null)
         }, 3000)
@@ -70,8 +70,8 @@ const App = () => {
     const createBlog = async (title, author, url) => {
         blogFormRef.current.toggleVisibility()
         try {
-            const blog = await blogService.create({title, author, url})
-            const blogWithUsername = {...blog, user}
+            const blog = await blogService.create({ title, author, url })
+            const blogWithUsername = { ...blog, user }
             setBlogs(blogs.concat(blogWithUsername))
             notify(`a new blog ${blog.title} by ${blog.author} added`)
         } catch (exception) {
@@ -80,9 +80,8 @@ const App = () => {
         }
     }
 
-    const likeBlog = async (id) => {
+    const likeBlog = async (id, blog) => {
         try {
-            const blog = await blogService.getOne(id)
             const blogWithIncrementedLikes = {
                 title: blog.title, author: blog.author, url: blog.url,
                 likes: Number(blog.likes) + 1
@@ -103,6 +102,19 @@ const App = () => {
         }
     }
 
+    const removeBlog = async (id, title, author) => {
+        try {
+            if (window.confirm(`Remove blog ${title} by ${author}`)) {
+                await blogService.remove(id)
+                const updatedBlogs = blogs.filter((blog) => blog.id !== id)
+                setBlogs(updatedBlogs)
+            }
+        } catch (exception) {
+            notify('error deleting blog', 'alert')
+            console.log(exception)
+        }
+    }
+
     const blogForm = () => (
         <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm
@@ -116,12 +128,12 @@ const App = () => {
             <Togglable buttonLabel="log in">
                 <LoginForm
                     handleSubmit={handleLogin}
-                    handleUsernameChange={({target}) =>
+                    handleUsernameChange={({ target }) =>
                         setUsername(target.value)
                     }
                     username={username}
                     password={password}
-                    handlePasswordChange={({target}) =>
+                    handlePasswordChange={({ target }) =>
                         setPassword(target.value)
                     }
                 />
@@ -147,7 +159,7 @@ const App = () => {
                         <h2>create new</h2>
                         {blogForm()}
                         {blogs.map((blog) => (
-                            <Blog key={blog.id} blog={blog} likeBlog={likeBlog}/>
+                            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} user={user} removeBlog={removeBlog}/>
                         ))}
                     </div>
                 </>
