@@ -1,41 +1,57 @@
-import PropTypes from 'prop-types'
+import { login } from '../reducers/userReducer'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import useNotification from '../hooks/useNotification'
+import Togglable from './Togglable'
 
-const LoginForm = (props) => (
-	<div>
-		<form onSubmit={props.handleSubmit}>
-			<div>
-				username
-				<input
-					id="username"
-					type="text"
-					value={props.username}
-					name="Username"
-					onChange={props.handleUsernameChange}
-				/>
-			</div>
-			<div>
-				password
-				<input
-					id="password"
-					type="password"
-					value={props.password}
-					name="Password"
-					onChange={props.handlePasswordChange}
-				/>
-			</div>
-			<button type="submit" id="login-button">
-				login
-			</button>
-		</form>
-	</div>
-)
+const LoginForm = () => {
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
+	const dispatch = useDispatch()
+	const notify = useNotification(5000)
 
-LoginForm.propTypes = {
-	handleSubmit: PropTypes.func.isRequired,
-	handleUsernameChange: PropTypes.func.isRequired,
-	handlePasswordChange: PropTypes.func.isRequired,
-	username: PropTypes.string.isRequired,
-	password: PropTypes.string.isRequired,
+	const handleLogin = async (event) => {
+		event.preventDefault()
+
+		try {
+			dispatch(login({ username, password }))
+			setUsername('')
+			setPassword('')
+		} catch (exception) {
+			notify('wrong username or password', 'alert')
+		}
+	}
+
+	return (
+		<Togglable buttonLabel="log in">
+			<div>
+				<form onSubmit={handleLogin}>
+					<div>
+						username
+						<input
+							id="username"
+							type="text"
+							value={username}
+							name="Username"
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+					</div>
+					<div>
+						password
+						<input
+							id="password"
+							type="password"
+							value={password}
+							name="Password"
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</div>
+					<button type="submit" id="login-button">
+						login
+					</button>
+				</form>
+			</div>
+		</Togglable>
+	)
 }
-
 export default LoginForm

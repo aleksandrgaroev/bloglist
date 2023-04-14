@@ -1,9 +1,34 @@
 import { useState } from 'react'
+import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import useNotification from '../hooks/useNotification'
 
-const Blog = ({ blog, likeBlog, removeBlog, user }) => {
+const Blog = ({ blog }) => {
 	const [isContentVisible, setIsContentVisible] = useState(false)
+	const dispatch = useDispatch()
+	const user = useSelector((state) => state.user)
+	const notify = useNotification(5000)
 	const toggleContentVisibility = () => {
 		setIsContentVisible(!isContentVisible)
+	}
+
+	const handleLike = (id) => {
+		try {
+			dispatch(likeBlog(id))
+		} catch (exception) {
+			notify('error liking blog', 'alert')
+			console.log(exception)
+		}
+	}
+
+	const handleDelete = (id, title, author) => {
+		try {
+			if (window.confirm(`Remove blog ${title} by ${author}`)) {
+				dispatch(removeBlog(id))
+			}
+		} catch (exception) {
+			notify('error deleting blog', 'alert')
+		}
 	}
 
 	const blogStyle = {
@@ -38,7 +63,7 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
 						</span>
 						<button
 							className="like-button"
-							onClick={() => likeBlog(blog.id, blog)}
+							onClick={() => handleLike(blog.id)}
 						>
 							like
 						</button>
@@ -50,7 +75,7 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
 								<button
 									className="delete-button"
 									onClick={() =>
-										removeBlog(
+										handleDelete(
 											blog.id,
 											blog.title,
 											blog.author,
